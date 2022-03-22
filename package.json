@@ -1,15 +1,15 @@
 {
   "name": "com.gabrielbigardi.statemachine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "State Machine",
   "description": "A nice way of having full control of your game",
-  "unity": "2019.3",
+  "unity": "2020.3",
   "unityRelease": "26f1",
   "keywords": [
     "state",
     "machine",
     "2d",
-	"3d"
+    "3d"
   ],
   "author": {
     "name": "Gabriel Bigardi",
