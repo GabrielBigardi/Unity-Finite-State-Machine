@@ -6,17 +6,17 @@ public class Entity : MonoBehaviour
 {
     public StateMachine StateMachine { get; private set; }
 
-    private void Start()
+    public virtual void Start()
     {
         StateMachine = new StateMachine();
     }
 
-    private void Update()
+    public virtual void Update()
     {
         StateMachine.Tick();
     }
 
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         StateMachine.FixedTick();
     }
