@@ -1,4 +1,4 @@
-# State Machine
+# Finite State Machine for Unity Engine
 Tired of highly-dependant codes, or you're having a hard time implementing new mechanics ? You've gone into the right place, this is a very simple state machine i've made so i can easily handle entities states, you can use it for: character, enemies, and literally anything that can make use of the Finite-State-Machine design pattern, it's made primarily for 2D, but it's been proved to work nicely with 3D too.
 
 ## How to install
