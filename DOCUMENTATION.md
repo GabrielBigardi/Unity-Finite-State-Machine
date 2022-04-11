@@ -17,10 +17,6 @@ public void AddAnyTransition(IState state, Func<bool> predicate) {}
 
 ### State-Machine Example
 ```cs
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Entity : MonoBehaviour
 {
     public StateMachine StateMachine { get; private set; }
