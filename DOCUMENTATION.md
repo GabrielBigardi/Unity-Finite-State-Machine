@@ -1,39 +1,77 @@
 ## How to use
-* 1 - Create a script for your entity that derives from "Entity".
-* 2 - Create your states derived from IState, hint: create super-states for grounded/air states, and things like that.
+* 1 - Create a script for your object that derives from "StateMachine".
+* 2 - Create your states derived from IState, hint: create super-states/base-states for grounded/air states, and things like that.
   
 ## Useful coding things
 ### State-Machine Functions
 ```cs
+// Adds a state in the FSM
+public void AddState(string stateKey, IState stateObject) {}
+
 // Sets the state for that FSM
-public void SetState(IState state) {}
-
-// Add a transition from a state to another (do this on your Entity on Awake/Start)
-public void AddTransition(IState from, IState to, Func<bool> predicate) {}
-
-// Add a transition from any state to another (do this on your Entity on Awake/Start)
-public void AddAnyTransition(IState state, Func<bool> predicate) {}
+public void SetState(string stateName) {}
 ```  
 
-### State-Machine Example
+### Usage Example
 ```cs
-public class Entity : MonoBehaviour
+public class PlayerIdleState : MonoBehaviour, IState
 {
-    public StateMachine StateMachine { get; private set; }
+	public void OnEnter()
+	{
+		Debug.Log("Idle State Enter");
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+	}
+	
+	void Tick()
+	{
+		Debug.Log("Idle State Tick");
+	}
+	
+	void FixedTick()
+	{
+		Debug.Log("Idle State FixedTick");
+	}
+	
+	void OnExit()
+	{
+		Debug.Log("Idle State Exit");
+	}
+}
 
-    public virtual void Start()
-    {
-        StateMachine = new StateMachine();
-    }
+public class PlayerWalkState : MonoBehaviour, IState
+{
+	[SerializeField] private float _moveSpeed;
 
-    public virtual void Update()
-    {
-        StateMachine.Tick();
-    }
+	public void OnEnter()
+	{
+		Debug.Log("Walk State Enter");
+	}
+	
+	void Tick()
+	{
+		Debug.Log("Walk State Tick");
+	}
+	
+	void FixedTick()
+	{
+		Debug.Log("Walk State FixedTick");
+		GetComponent<Rigidbody2D>().velocity = new Vector2(Input.GetAxisRaw("Horizontal") * _moveSpeed * Time.deltaTime, GetComponent<Rigidbody2D>().velocity.y);
+	}
+	
+	void OnExit()
+	{
+		Debug.Log("Walk State Exit");
+	}
+}
 
-    public virtual void FixedUpdate()
+public class PlayerController : StateMachine
+{
+    public void Awake()
     {
-        StateMachine.FixedTick();
+		AddState("Idle", GetComponent<PlayerIdleState>());
+		AddState("Walk", GetComponent<PlayerWalkState>());
+		
+		SetState("Idle");
     }
 }
 ```  
@@ -51,25 +89,4 @@ void OnEnter();
 
 // Called every time you exit the state
 void OnExit();
-```
-  
-### State Interface Example
-```cs
-public abstract class PlayerState : IState
-{
-    protected readonly StateMachine StateMachine;
-    protected readonly Entity PlayerEntity;
-
-    public PlayerState(StateMachine stateMachine, Entity playerEntity)
-    {
-        this.StateMachine = stateMachine;
-        this.PlayerEntity = playerEntity;
-    }
-
-    public virtual void Tick() { }
-    public virtual void FixedTick() { }
-    public virtual void OnEnter() { }
-    public virtual void OnExit() { }
-    }
-}
 ```
